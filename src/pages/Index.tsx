@@ -1,12 +1,30 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import FloatingHearts from "@/components/FloatingHearts";
+import ProposalScreen from "@/components/ProposalScreen";
+import YesScreen from "@/components/YesScreen";
+import NoScreen from "@/components/NoScreen";
+
+type Screen = "proposal" | "yes" | "no";
 
 const Index = () => {
+  const [screen, setScreen] = useState<Screen>("proposal");
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="valentine-gradient min-h-screen relative overflow-hidden">
+      <FloatingHearts />
+
+      {screen === "proposal" && (
+        <ProposalScreen
+          onYes={() => setScreen("yes")}
+          onNo={() => setScreen("no")}
+        />
+      )}
+
+      {screen === "yes" && <YesScreen />}
+
+      {screen === "no" && (
+        <NoScreen onReconsider={() => setScreen("proposal")} />
+      )}
     </div>
   );
 };
