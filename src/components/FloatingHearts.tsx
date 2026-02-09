@@ -1,16 +1,19 @@
 import { useMemo } from "react";
 
-const HEART_SYMBOLS = ["💕", "💖", "💗", "💝", "🌸", "✨", "💞"];
+const FLOATING_ITEMS = [
+  "💕", "💖", "💗", "💝", "🌸", "✨", "💞",
+  "🌺", "🌻", "🌷", "🌹", "💐", "🌼", "🩷"
+];
 
 const FloatingHearts = () => {
   const hearts = useMemo(
     () =>
-      Array.from({ length: 20 }, (_, i) => ({
+      Array.from({ length: 25 }, (_, i) => ({
         id: i,
-        symbol: HEART_SYMBOLS[i % HEART_SYMBOLS.length],
+        symbol: FLOATING_ITEMS[i % FLOATING_ITEMS.length],
         left: Math.random() * 100,
         size: 14 + Math.random() * 20,
-        duration: 8 + Math.random() * 12,
+        duration: 10 + Math.random() * 15,
         delay: Math.random() * 10,
         opacity: 0.3 + Math.random() * 0.5,
       })),

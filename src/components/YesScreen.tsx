@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
-import { CalendarIcon, MapPin, Send, ArrowLeft, Heart } from "lucide-react";
+import { CalendarIcon, MapPin, Send, ArrowLeft, Heart, Gift, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -9,15 +9,22 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import romanticHero from "@/assets/romantic-hero.jpg";
+import ourPhotoTogether from "@/assets/our image together.jpg";
 
 interface YesScreenProps {
   onBack: () => void;
 }
 
+// Replace with your FormSpree form ID after creating at https://formspree.io
+const FORMSPREE_URL = "https://formspree.io/f/xjgknzgp";
+
 const YesScreen = ({ onBack }: YesScreenProps) => {
   const [place, setPlace] = useState("");
   const [date, setDate] = useState<Date | undefined>();
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [showSurprise, setShowSurprise] = useState(false);
+  const [surpriseMessage, setSurpriseMessage] = useState(0);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -30,12 +37,49 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!place.trim()) return;
+    
+    setSubmitting(true);
+    
+    // Save to localStorage
     const data = { place: place.trim(), date: date?.toISOString() || null };
     localStorage.setItem("valentine-suggestion", JSON.stringify(data));
+    
+    // Send to FormSpree (if configured)
+    try {
+      await fetch(FORMSPREE_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: `${place}${date ? ` - Date: ${format(date, "PPP")}` : ""}`,
+          type: "Location Suggestion",
+          response: "Yes! She said yes! 💕"
+        }),
+      });
+    } catch (error) {
+      console.log("FormSpree submission skipped");
+    }
+    
+    setSubmitting(false);
     setSubmitted(true);
+  };
+
+  const surpriseMessages = [
+    "🎉 You just made my entire year!",
+    "💕 Get ready for the best Valentine's Day ever!",
+    "🌟 I'm so happy right now!",
+    "❤️ Get ready for lots of hugs and kisses!",
+    "🥰 You're the best thing that ever happened to me!",
+    "💖 I promise to love you forever!",
+  ];
+
+  const handleSurprise = () => {
+    setShowSurprise(true);
+    setSurpriseMessage(Math.floor(Math.random() * surpriseMessages.length));
+    // Reset after 5 seconds
+    setTimeout(() => setShowSurprise(false), 5000);
   };
 
   return (
@@ -52,23 +96,62 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
         </button>
       </div>
 
-      {/* Celebration emoji */}
+      {/* Surprise reveal overlay */}
+      {showSurprise && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 animate-fade-up">
+          <div className="bg-card p-8 rounded-2xl max-w-md mx-4 text-center">
+            <Sparkles className="w-16 h-16 mx-auto mb-4 text-primary animate-pulse" />
+            <p className="font-display text-2xl font-bold text-foreground mb-4">
+              {surpriseMessages[surpriseMessage]}
+            </p>
+            <p className="font-body text-muted-foreground">
+              Thank you for saying yes! 💕
+            </p>
+            <button
+              onClick={() => setShowSurprise(false)}
+              className="mt-6 px-6 py-2 rounded-full bg-primary text-primary-foreground"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Flower decorations */}
+      <div className="absolute top-10 left-10 text-3xl animate-pulse-gentle">🌸</div>
+      <div className="absolute top-20 right-16 text-3xl animate-pulse-gentle" style={{ animationDelay: '0.5s' }}>🌺</div>
+      <div className="absolute bottom-20 left-10 text-3xl animate-pulse-gentle" style={{ animationDelay: '1s' }}>🌷</div>
+      <div className="absolute bottom-32 right-12 text-3xl animate-pulse-gentle" style={{ animationDelay: '1.5s' }}>🌹</div>
+
+      {/* Celebration */}
       <div className="text-5xl mb-4 animate-bounce-soft" aria-hidden="true">
-        🎉
+        🎉💕🌸
       </div>
 
       <div className="card-romantic max-w-2xl w-full text-center">
-        {/* Hero image */}
+        {/* Our photo together - main hero */}
         <div className="relative rounded-xl overflow-hidden mb-8 animate-fade-up">
           <img
-            src={romanticHero}
-            alt="A romantic sunset scene in Kenya with a couple holding hands"
-            className="w-full h-48 md:h-64 object-cover"
+            src={ourPhotoTogether}
+            alt="Us together"
+            className="w-full h-64 md:h-80 object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
           <p className="absolute bottom-4 left-0 right-0 font-display text-2xl md:text-3xl font-bold text-primary-foreground drop-shadow-lg">
             She said Yes! 💕
           </p>
+        </div>
+
+        {/* Surprise button */}
+        <div className="mb-6 animate-fade-up delay-100">
+          <button
+            onClick={handleSurprise}
+            className="px-6 py-3 rounded-full bg-gradient-to-r from-primary to-pink-500 text-primary-foreground font-body font-semibold 
+                       hover:scale-105 active:scale-95 transition-all duration-300 glow-primary flex items-center gap-2 mx-auto"
+          >
+            <Gift className="w-5 h-5" />
+            Press for a Surprise!
+          </button>
         </div>
 
         {/* Heartfelt message */}
@@ -93,20 +176,20 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
             <h3 className="font-display text-lg font-semibold text-foreground">A Little Love Note</h3>
           </div>
           <p className="font-body text-sm md:text-base text-foreground/70 leading-relaxed italic mb-3">
-            "Liz, you are the reason I wake up smiling. You are the reason I believe in forever. 
-            Your kindness, your strength, your beautiful heart — they inspire me every single day."
+            Liz, you are the reason I wake up smiling. You are the reason I believe in forever. 
+            Your kindness, your strength, your beautiful heart — they inspire me every single day.
           </p>
           <p className="font-body text-sm md:text-base text-foreground/70 leading-relaxed italic mb-3">
-            "I love the way you laugh, the way you care for everyone around you, the way you 
+            I love the way you laugh, the way you care for everyone around you, the way you 
             make even the simplest things feel magical. Being with you isn't just happiness — 
-            it's home."
+            it's home.
           </p>
           <p className="font-body text-sm md:text-base text-foreground/70 leading-relaxed italic">
-            "Here's to us — to more adventures, more inside jokes, more sunsets together, 
-            and more love than we can ever imagine. I love you endlessly."
+            Here's to us — to more adventures, more inside jokes, more sunsets together, 
+            and more love than we can ever imagine. I love you endlessly.
           </p>
           <p className="font-body text-xs text-muted-foreground mt-3 text-right not-italic">
-            — Yours, always and forever 💕
+            Yours, always and forever 💕
           </p>
         </div>
 
@@ -143,14 +226,13 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
         {/* Trip suggestion section */}
         <div className="border-t border-border/50 pt-8 animate-fade-up delay-400">
           <h2 className="font-display text-xl md:text-2xl font-semibold text-foreground mb-2">
-            One more thing... 🗺️
+            Let's Plan Our Valentine's Date 💕
           </h2>
           <p className="font-body text-sm md:text-base text-muted-foreground mb-6">
-            Now, just for fun, if you could pick any place{" "}
-            <span className="font-semibold text-foreground">within Kenya</span>{" "}
-            for us to visit this Valentine's Day, where would it be?
+            I want to make this day special for us. If you could choose any place in Kenya{" "}
+            <span className="font-semibold text-foreground">where would you love to go?</span>
             <br />
-            <span className="italic text-xs">(This is a joke... or maybe not 😉)</span>
+            <span className="text-xs">Your wish is my command ❤️</span>
           </p>
 
           {!submitted ? (
@@ -200,13 +282,12 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
               {/* Submit */}
               <button
                 type="submit"
+                disabled={!place.trim() || submitting}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground 
                            font-body font-semibold glow-primary hover:scale-[1.02] active:scale-95 transition-all duration-300
                            focus:outline-none focus:ring-4 focus:ring-ring/50 disabled:opacity-50"
-                disabled={!place.trim()}
               >
-                <Send className="w-4 h-4" />
-                Submit Suggestion
+                {submitting ? "Sending..." : "Submit Suggestion 💕"}
               </button>
             </form>
           ) : (
@@ -226,6 +307,12 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
                   📍 {place} {date && `• 📅 ${format(date, "PPP")}`}
                 </p>
               )}
+              <button
+                onClick={() => setSubmitted(false)}
+                className="mt-4 px-4 py-2 rounded-lg border border-primary/30 text-primary hover:bg-secondary/50 transition-colors text-sm"
+              >
+                ✏️ Change Location
+              </button>
             </div>
           )}
         </div>
@@ -233,9 +320,8 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
         {/* Closing message */}
         <div className="mt-8 pt-6 border-t border-border/30 animate-fade-up delay-500">
           <p className="font-display text-base md:text-lg text-foreground/60 italic">
-            "I love you not only for what you are, but for what I am when I am with you."
+            I love you not only for what you are, but for what I am when I am with you.
           </p>
-          <p className="font-body text-xs text-muted-foreground mt-1">— Roy Croft</p>
           <p className="font-body text-sm text-primary mt-4 font-medium">
             Happy Valentine's Day, Liz Njoki! 💖
           </p>

@@ -1,4 +1,5 @@
-import { ArrowLeft, Heart } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowLeft, Heart, MessageCircle } from "lucide-react";
 import sadPuppy from "@/assets/sad-puppy.jpg";
 
 interface NoScreenProps {
@@ -6,7 +7,55 @@ interface NoScreenProps {
   onBack: () => void;
 }
 
+// Replace with your FormSpree form ID after creating at https://formspree.io
+const FORMSPREE_URL = "https://formspree.io/f/xjgknzgp";
+
 const NoScreen = ({ onReconsider, onBack }: NoScreenProps) => {
+  const [reason, setReason] = useState("");
+  const [reasonSubmitted, setReasonSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("valentine-no-reason");
+    if (saved) {
+      setReasonSubmitted(true);
+    }
+  }, []);
+
+  const handleSubmitReason = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!reason.trim()) return;
+    
+    setSubmitting(true);
+    
+    // Save to localStorage
+    localStorage.setItem("valentine-no-reason", reason.trim());
+    
+    // Send to FormSpree (if configured)
+    try {
+      await fetch(FORMSPREE_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: reason,
+          type: "Reason for saying No",
+          response: "No, I won't be your Valentine"
+        }),
+      });
+    } catch (error) {
+      console.log("FormSpree submission skipped");
+    }
+    
+    setSubmitting(false);
+    setReasonSubmitted(true);
+  };
+
+  const handleClearReason = () => {
+    localStorage.removeItem("valentine-no-reason");
+    setReasonSubmitted(false);
+    setReason("");
+  };
+
   return (
     <div className="flex flex-col items-center min-h-screen px-4 py-8 relative z-10">
       {/* Back button */}
@@ -20,6 +69,12 @@ const NoScreen = ({ onReconsider, onBack }: NoScreenProps) => {
           Back
         </button>
       </div>
+
+      {/* Flower decorations */}
+      <div className="absolute top-10 left-10 text-3xl animate-pulse-gentle">🥀</div>
+      <div className="absolute top-20 right-16 text-3xl animate-pulse-gentle" style={{ animationDelay: '0.5s' }}>🌹</div>
+      <div className="absolute bottom-20 left-10 text-3xl animate-pulse-gentle" style={{ animationDelay: '1s' }}>🩷</div>
+      <div className="absolute bottom-32 right-12 text-3xl animate-pulse-gentle" style={{ animationDelay: '1.5s' }}>💔</div>
 
       <div className="card-romantic max-w-lg w-full text-center">
         {/* Sad puppy image */}
@@ -65,6 +120,56 @@ const NoScreen = ({ onReconsider, onBack }: NoScreenProps) => {
           </p>
         </div>
 
+        {/* Give a Reason section */}
+        <div className="border-t border-border/50 pt-6 mb-6 animate-fade-up delay-400">
+          <div className="flex items-center gap-2 mb-3 justify-center">
+            <MessageCircle className="w-5 h-5 text-primary" />
+            <h3 className="font-display text-lg font-semibold text-foreground">Want to Tell Me Why?</h3>
+          </div>
+          <p className="font-body text-sm text-muted-foreground mb-4">
+            If you'd like, you can share your reason. I'll understand. 💙
+          </p>
+
+          {!reasonSubmitted ? (
+            <form onSubmit={handleSubmitReason} className="space-y-3">
+              <textarea
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                placeholder="Tell me why..."
+                className="w-full p-3 rounded-xl bg-secondary/50 border border-border 
+                           text-foreground placeholder:text-muted-foreground font-body
+                           focus:outline-none focus:ring-2 focus:ring-ring transition-all
+                           resize-none h-24"
+                aria-label="Tell me why you said no"
+              />
+              <button
+                type="submit"
+                disabled={!reason.trim() || submitting}
+                className="w-full px-6 py-3 rounded-xl bg-primary text-primary-foreground 
+                           font-body font-semibold hover:scale-[1.02] active:scale-95 transition-all duration-300
+                           focus:outline-none focus:ring-4 focus:ring-ring/50 disabled:opacity-50"
+              >
+                {submitting ? "Sending..." : "Submit Reason 💌"}
+              </button>
+            </form>
+          ) : (
+            <div className="animate-fade-up bg-secondary/30 rounded-xl p-4">
+              <p className="font-body text-sm text-foreground mb-2">
+                📝 <span className="font-semibold">Your reason:</span>
+              </p>
+              <p className="font-body text-sm text-muted-foreground italic">
+                "{reason}"
+              </p>
+              <button
+                onClick={handleClearReason}
+                className="mt-3 text-xs text-muted-foreground hover:text-foreground underline"
+              >
+                Change my reason
+              </button>
+            </div>
+          )}
+        </div>
+
         {/* Reasons I love you */}
         <div className="mb-6 animate-fade-up delay-400">
           <h3 className="font-display text-lg md:text-xl font-semibold text-foreground mb-4">
@@ -99,12 +204,11 @@ const NoScreen = ({ onReconsider, onBack }: NoScreenProps) => {
         </div>
 
         <p className="font-display text-base text-foreground/50 italic mb-6 animate-fade-up delay-500">
-          "I loved you yesterday, I love you still. I always have, I always will."
-          <span className="block text-xs mt-1 not-italic text-muted-foreground">— Elaine Davis</span>
+          I loved you yesterday, I love you still. I always have, I always will.
         </p>
 
         <p className="font-body text-sm text-muted-foreground mb-6 animate-fade-up delay-500">
-          Maybe next time? I'll be right here waiting with open arms and a heart full of love. 😊
+          I'll always be here for you, hoping and believing. 💕
         </p>
 
         <button
@@ -115,7 +219,7 @@ const NoScreen = ({ onReconsider, onBack }: NoScreenProps) => {
                      animate-fade-up delay-500"
           aria-label="Reconsider and say yes"
         >
-          Wait... let me reconsider! 🤔💕
+          I've Changed My Mind 💕
         </button>
       </div>
     </div>
