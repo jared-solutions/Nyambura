@@ -20,10 +20,15 @@ const Index = () => {
         />
       )}
 
-      {screen === "yes" && <YesScreen />}
+      {screen === "yes" && (
+        <YesScreen onBack={() => setScreen("proposal")} />
+      )}
 
       {screen === "no" && (
-        <NoScreen onReconsider={() => setScreen("proposal")} />
+        <NoScreen
+          onReconsider={() => setScreen("yes")}
+          onBack={() => setScreen("proposal")}
+        />
       )}
     </div>
   );

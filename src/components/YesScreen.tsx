@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
-import { CalendarIcon, MapPin, Send } from "lucide-react";
+import { CalendarIcon, MapPin, Send, ArrowLeft, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/popover";
 import romanticHero from "@/assets/romantic-hero.jpg";
 
-const YesScreen = () => {
+interface YesScreenProps {
+  onBack: () => void;
+}
+
+const YesScreen = ({ onBack }: YesScreenProps) => {
   const [place, setPlace] = useState("");
   const [date, setDate] = useState<Date | undefined>();
   const [submitted, setSubmitted] = useState(false);
@@ -35,7 +39,19 @@ const YesScreen = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-12 relative z-10">
+    <div className="flex flex-col items-center min-h-screen px-4 py-8 relative z-10">
+      {/* Back button */}
+      <div className="w-full max-w-2xl mb-4 animate-fade-up">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 text-muted-foreground hover:text-foreground font-body text-sm transition-colors focus:outline-none"
+          aria-label="Go back to proposal"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back
+        </button>
+      </div>
+
       {/* Celebration emoji */}
       <div className="text-5xl mb-4 animate-bounce-soft" aria-hidden="true">
         🎉
@@ -55,12 +71,77 @@ const YesScreen = () => {
           </p>
         </div>
 
-        <p className="font-body text-base md:text-lg text-foreground/80 leading-relaxed mb-8 animate-fade-up delay-200">
-          Thank you for saying yes! Get ready for a day full of love, laughter,
-          and unforgettable memories just for us. ❤️
-        </p>
+        {/* Heartfelt message */}
+        <div className="mb-8 animate-fade-up delay-200">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-4">
+            You've Made Me the Happiest! 🥰
+          </h2>
+          <p className="font-body text-base md:text-lg text-foreground/80 leading-relaxed mb-4">
+            Thank you for saying yes, Liz Njoki! You have no idea how much this means to me. 
+            Get ready for a day full of love, laughter, and unforgettable memories just for us. ❤️
+          </p>
+          <p className="font-body text-base md:text-lg text-foreground/80 leading-relaxed mb-4">
+            I promise to make every moment count — from the little surprises to the grand gestures.
+            You deserve nothing but the best, and I'll spend every day trying to give you exactly that.
+          </p>
+        </div>
 
-        <div className="border-t border-border/50 pt-8 animate-fade-up delay-300">
+        {/* Love letter section */}
+        <div className="bg-secondary/20 rounded-xl p-6 mb-8 text-left animate-fade-up delay-300">
+          <div className="flex items-center gap-2 mb-3">
+            <Heart className="w-5 h-5 text-primary" />
+            <h3 className="font-display text-lg font-semibold text-foreground">A Little Love Note</h3>
+          </div>
+          <p className="font-body text-sm md:text-base text-foreground/70 leading-relaxed italic mb-3">
+            "Liz, you are the reason I wake up smiling. You are the reason I believe in forever. 
+            Your kindness, your strength, your beautiful heart — they inspire me every single day."
+          </p>
+          <p className="font-body text-sm md:text-base text-foreground/70 leading-relaxed italic mb-3">
+            "I love the way you laugh, the way you care for everyone around you, the way you 
+            make even the simplest things feel magical. Being with you isn't just happiness — 
+            it's home."
+          </p>
+          <p className="font-body text-sm md:text-base text-foreground/70 leading-relaxed italic">
+            "Here's to us — to more adventures, more inside jokes, more sunsets together, 
+            and more love than we can ever imagine. I love you endlessly."
+          </p>
+          <p className="font-body text-xs text-muted-foreground mt-3 text-right not-italic">
+            — Yours, always and forever 💕
+          </p>
+        </div>
+
+        {/* What I have planned */}
+        <div className="mb-8 animate-fade-up delay-300">
+          <h3 className="font-display text-lg md:text-xl font-semibold text-foreground mb-4">
+            What I Have Planned for Us 🌹
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="bg-secondary/20 rounded-xl p-4">
+              <p className="text-2xl mb-2" aria-hidden="true">🕯️</p>
+              <p className="font-body text-sm font-medium text-foreground">Candlelit Dinner</p>
+              <p className="font-body text-xs text-muted-foreground mt-1">
+                A cozy evening with your favorite food, just the two of us
+              </p>
+            </div>
+            <div className="bg-secondary/20 rounded-xl p-4">
+              <p className="text-2xl mb-2" aria-hidden="true">🎁</p>
+              <p className="font-body text-sm font-medium text-foreground">Surprise Gifts</p>
+              <p className="font-body text-xs text-muted-foreground mt-1">
+                A few thoughtful surprises that I know will make you smile
+              </p>
+            </div>
+            <div className="bg-secondary/20 rounded-xl p-4">
+              <p className="text-2xl mb-2" aria-hidden="true">🌅</p>
+              <p className="font-body text-sm font-medium text-foreground">Sunset Together</p>
+              <p className="font-body text-xs text-muted-foreground mt-1">
+                Watching the sunset while I tell you all the reasons I love you
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Trip suggestion section */}
+        <div className="border-t border-border/50 pt-8 animate-fade-up delay-400">
           <h2 className="font-display text-xl md:text-2xl font-semibold text-foreground mb-2">
             One more thing... 🗺️
           </h2>
@@ -134,8 +215,11 @@ const YesScreen = () => {
               <p className="font-display text-xl font-semibold text-foreground mb-2">
                 Thanks for your suggestion!
               </p>
-              <p className="font-body text-muted-foreground">
+              <p className="font-body text-muted-foreground mb-2">
                 Can't wait to make it happen 😊
+              </p>
+              <p className="font-body text-sm text-foreground/60">
+                I'm already looking into it... this might just become our next adventure together!
               </p>
               {place && (
                 <p className="mt-3 font-body text-sm text-foreground/70">
@@ -144,6 +228,17 @@ const YesScreen = () => {
               )}
             </div>
           )}
+        </div>
+
+        {/* Closing message */}
+        <div className="mt-8 pt-6 border-t border-border/30 animate-fade-up delay-500">
+          <p className="font-display text-base md:text-lg text-foreground/60 italic">
+            "I love you not only for what you are, but for what I am when I am with you."
+          </p>
+          <p className="font-body text-xs text-muted-foreground mt-1">— Roy Croft</p>
+          <p className="font-body text-sm text-primary mt-4 font-medium">
+            Happy Valentine's Day, Liz Njoki! 💖
+          </p>
         </div>
       </div>
     </div>
