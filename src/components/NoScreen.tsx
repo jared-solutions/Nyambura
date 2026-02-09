@@ -87,7 +87,7 @@ const NoScreen = ({ onReconsider, onBack }: NoScreenProps) => {
         </div>
 
         <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-4 animate-fade-up delay-200">
-          Oh no, Liz Njoki! 💔
+          Oh no, June Njeri! 💔
         </h1>
 
         <p className="font-body text-base md:text-lg text-foreground/80 leading-relaxed mb-4 animate-fade-up delay-300">

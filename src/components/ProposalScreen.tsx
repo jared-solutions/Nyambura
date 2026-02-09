@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import lizClean from "@/assets/liz-clean.jpg";
+import juneNjeri from "@/assets/june njeri.jpeg";
 
 interface ProposalScreenProps {
   onYes: () => void;
@@ -47,11 +47,11 @@ const ProposalScreen = ({ onYes, onNo }: ProposalScreenProps) => {
       <div className="absolute bottom-32 right-12 text-3xl animate-pulse-gentle" style={{ animationDelay: '2.5s' }}>🌻</div>
       <div className="absolute bottom-16 left-1/4 text-2xl animate-pulse-gentle" style={{ animationDelay: '3s' }}>🌼</div>
 
-      {/* Liz's photo */}
+      {/* June's photo */}
       <div className="mb-6 animate-fade-up">
         <img
-          src={lizClean}
-          alt="Liz Njoki"
+          src={juneNjeri}
+          alt="June Njeri"
           className="w-40 h-40 md:w-48 md:h-48 rounded-full object-cover shadow-lg border-4 border-primary/20"
         />
       </div>
@@ -68,7 +68,7 @@ const ProposalScreen = ({ onYes, onNo }: ProposalScreenProps) => {
         </p>
 
         <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-gradient-romance leading-tight mb-4">
-          Hey Liz Njoki!
+          Hey June Njeri!
         </h1>
 
         <div className="w-16 h-0.5 bg-primary/30 mx-auto mb-6" aria-hidden="true" />
