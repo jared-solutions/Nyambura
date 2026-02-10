@@ -13,6 +13,7 @@ const ProposalScreen = ({ onYes, onNo }: ProposalScreenProps) => {
     minutes: 0,
     seconds: 0,
   });
+  const [isValentinesDay, setIsValentinesDay] = useState(false);
 
   useEffect(() => {
     const valentinesDay = new Date("2026-02-14T00:00:00").getTime();
@@ -28,6 +29,9 @@ const ProposalScreen = ({ onYes, onNo }: ProposalScreenProps) => {
           minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
           seconds: Math.floor((distance % (1000 * 60)) / 1000),
         });
+        setIsValentinesDay(false);
+      } else {
+        setIsValentinesDay(true);
       }
     };
 
@@ -75,25 +79,38 @@ const ProposalScreen = ({ onYes, onNo }: ProposalScreenProps) => {
 
         {/* Countdown Timer */}
         <div className="mb-6 p-4 bg-secondary/30 rounded-xl">
-          <p className="font-body text-xs text-muted-foreground mb-3">Valentine's Day Countdown</p>
-          <div className="flex justify-center gap-4">
-            <div className="text-center">
-              <p className="font-display text-2xl md:text-3xl font-bold text-primary">{timeLeft.days}</p>
-              <p className="font-body text-xs text-muted-foreground">Days</p>
+          {isValentinesDay ? (
+            <div className="text-center py-4">
+              <p className="font-display text-3xl md:text-4xl font-bold text-primary animate-pulse">
+                💕 Happy Valentine's Day, June Njeri! 💕
+              </p>
+              <p className="font-body text-sm text-muted-foreground mt-2">
+                Today is the day of love! ❤️
+              </p>
             </div>
-            <div className="text-center">
-              <p className="font-display text-2xl md:text-3xl font-bold text-primary">{timeLeft.hours}</p>
-              <p className="font-body text-xs text-muted-foreground">Hours</p>
-            </div>
-            <div className="text-center">
-              <p className="font-display text-2xl md:text-3xl font-bold text-primary">{timeLeft.minutes}</p>
-              <p className="font-body text-xs text-muted-foreground">Minutes</p>
-            </div>
-            <div className="text-center">
-              <p className="font-display text-2xl md:text-3xl font-bold text-primary">{timeLeft.seconds}</p>
-              <p className="font-body text-xs text-muted-foreground">Seconds</p>
-            </div>
-          </div>
+          ) : (
+            <>
+              <p className="font-body text-xs text-muted-foreground mb-3">Valentine's Day Countdown</p>
+              <div className="flex justify-center gap-4">
+                <div className="text-center">
+                  <p className="font-display text-2xl md:text-3xl font-bold text-primary">{timeLeft.days}</p>
+                  <p className="font-body text-xs text-muted-foreground">Days</p>
+                </div>
+                <div className="text-center">
+                  <p className="font-display text-2xl md:text-3xl font-bold text-primary">{timeLeft.hours}</p>
+                  <p className="font-body text-xs text-muted-foreground">Hours</p>
+                </div>
+                <div className="text-center">
+                  <p className="font-display text-2xl md:text-3xl font-bold text-primary">{timeLeft.minutes}</p>
+                  <p className="font-body text-xs text-muted-foreground">Minutes</p>
+                </div>
+                <div className="text-center">
+                  <p className="font-display text-2xl md:text-3xl font-bold text-primary">{timeLeft.seconds}</p>
+                  <p className="font-body text-xs text-muted-foreground">Seconds</p>
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         <p className="font-display text-xl md:text-2xl text-foreground/80 italic mb-4">
