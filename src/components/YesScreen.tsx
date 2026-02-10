@@ -8,6 +8,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import nyambura1 from "@/assets/nyambura1.jpeg";
+import nyambura2 from "@/assets/nyambura 2.jpeg";
 import nyambura3 from "@/assets/nyambura 3.jpeg";
 // import nyamburaVideo from "@/assets/nyambura video.mp4"; // Uncomment if you have a video for Nyambura
 
@@ -18,6 +20,8 @@ interface YesScreenProps {
 // Replace with your FormSpree form ID after creating at https://formspree.io
 const FORMSPREE_URL = "https://formspree.io/f/xjgknzgp";
 
+const nyamburaImages = [nyambura1, nyambura2, nyambura3];
+
 const YesScreen = ({ onBack }: YesScreenProps) => {
   const [place, setPlace] = useState("");
   const [date, setDate] = useState<Date | undefined>();
@@ -25,6 +29,7 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
   const [submitting, setSubmitting] = useState(false);
   const [showSurprise, setShowSurprise] = useState(false);
   const [surpriseMessage, setSurpriseMessage] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -35,6 +40,14 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
       setDate(data.date ? new Date(data.date) : undefined);
       setSubmitted(true);
     }
+  }, []);
+
+  // Cycle through images every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % nyamburaImages.length);
+    }, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -129,13 +142,20 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
       </div>
 
       <div className="card-romantic max-w-2xl w-full text-center">
-        {/* Romantic hero image */}
+        {/* Nyambura's images slideshow */}
         <div className="relative rounded-xl overflow-hidden mb-8 animate-fade-up">
-          <img
-            src={nyambura3}
-            alt="Nyambura"
-            className="w-full h-64 md:h-80 object-cover"
-          />
+          <div className="relative w-full h-64 md:h-80 overflow-hidden">
+            {nyamburaImages.map((image, index) => (
+              <img
+                key={index}
+                src={image}
+                alt={`Nyambura ${index + 1}`}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                  index === currentImageIndex ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
+          </div>
           <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
           <p className="absolute bottom-4 left-0 right-0 font-display text-2xl md:text-3xl font-bold text-primary-foreground drop-shadow-lg">
             She said Yes! 💕
