@@ -8,7 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import romanticHero from "@/assets/romantic-hero.jpg";
+import nyambura3 from "@/assets/nyambura 3.jpeg";
 // import nyamburaVideo from "@/assets/nyambura video.mp4"; // Uncomment if you have a video for Nyambura
 
 interface YesScreenProps {
@@ -132,8 +132,8 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
         {/* Romantic hero image */}
         <div className="relative rounded-xl overflow-hidden mb-8 animate-fade-up">
           <img
-            src={romanticHero}
-            alt="Romantic celebration"
+            src={nyambura3}
+            alt="Nyambura"
             className="w-full h-64 md:h-80 object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
