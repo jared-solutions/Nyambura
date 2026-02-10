@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import juneNjeri from "@/assets/june njeri.jpeg";
+import nyambura2 from "@/assets/nyambura 2.jpeg";
 
 interface ProposalScreenProps {
   onYes: () => void;
@@ -51,11 +51,11 @@ const ProposalScreen = ({ onYes, onNo }: ProposalScreenProps) => {
       <div className="absolute bottom-32 right-12 text-3xl animate-pulse-gentle" style={{ animationDelay: '2.5s' }}>🌻</div>
       <div className="absolute bottom-16 left-1/4 text-2xl animate-pulse-gentle" style={{ animationDelay: '3s' }}>🌼</div>
 
-      {/* June's photo */}
+      {/* Nyambura's photo */}
       <div className="mb-6 animate-fade-up">
         <img
-          src={juneNjeri}
-          alt="June Njeri"
+          src={nyambura2}
+          alt="Nyambura"
           className="w-40 h-40 md:w-48 md:h-48 rounded-full object-cover shadow-lg border-4 border-primary/20"
         />
       </div>
@@ -72,7 +72,7 @@ const ProposalScreen = ({ onYes, onNo }: ProposalScreenProps) => {
         </p>
 
         <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-gradient-romance leading-tight mb-4">
-          Hey June Njeri!
+          Hey Nyambura!
         </h1>
 
         <div className="w-16 h-0.5 bg-primary/30 mx-auto mb-6" aria-hidden="true" />
@@ -82,7 +82,7 @@ const ProposalScreen = ({ onYes, onNo }: ProposalScreenProps) => {
           {isValentinesDay ? (
             <div className="text-center py-4">
               <p className="font-display text-3xl md:text-4xl font-bold text-primary animate-pulse">
-                💕 Happy Valentine's Day, June Njeri! 💕
+                Happy Valentine's Day, Nyambura! 💕
               </p>
               <p className="font-body text-sm text-muted-foreground mt-2">
                 Today is the day of love! ❤️

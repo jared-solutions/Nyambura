@@ -1,73 +1,56 @@
-# Welcome to your Lovable project
+# Will You Be My Valentine? 💕
 
-## Project info
+A special Valentine's Day proposal website for Nyambura.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## About This Project
 
-## How can I edit this code?
+This is a romantic Valentine's Day proposal website built with React, TypeScript, and Tailwind CSS. It features:
 
-There are several ways of editing your application.
+- 🎀 Beautiful countdown to Valentine's Day
+- 💝 Romantic animations and floating hearts
+- 📝 Interactive "Yes" or "No" response options
+- 🎉 Celebration screen for when she says "Yes"
+- 💔 Sweet rejection screen with love notes
+- 📍 Date planning suggestion feature
 
-**Use Lovable**
+## Getting Started
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### Installation
 
-Changes made via Lovable will be committed automatically to this repo.
+```bash
+# Install dependencies
+npm install
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Building for Production
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+npm run build
+```
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
+## Technologies Used
 
 - Vite
 - TypeScript
 - React
 - shadcn-ui
 - Tailwind CSS
+- Lucide Icons
+- date-fns
 
-## How can I deploy this project?
+## Customization
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+To customize this for your own Valentine's proposal:
 
-## Can I connect a custom domain to my Lovable project?
+1. Replace the images in `src/assets/` with your own
+2. Update the name in all component files
+3. Modify the love letter text in `YesScreen.tsx`
+4. Update the countdown date in `ProposalScreen.tsx`
+5. Change the FormSpree URL for receiving responses
 
-Yes, you can!
+## License
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Made with ❤️ for Nyambura

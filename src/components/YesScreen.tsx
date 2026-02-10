@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import romanticHero from "@/assets/romantic-hero.jpg";
-import juneVideo from "@/assets/june video.mp4";
+// import nyamburaVideo from "@/assets/nyambura video.mp4"; // Uncomment if you have a video for Nyambura
 
 interface YesScreenProps {
   onBack: () => void;
@@ -129,13 +129,11 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
       </div>
 
       <div className="card-romantic max-w-2xl w-full text-center">
-        {/* June's video */}
+        {/* Romantic hero image */}
         <div className="relative rounded-xl overflow-hidden mb-8 animate-fade-up">
-          <video
-            src={juneVideo}
-            autoPlay
-            loop
-            playsInline
+          <img
+            src={romanticHero}
+            alt="Romantic celebration"
             className="w-full h-64 md:h-80 object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
@@ -162,7 +160,7 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
             You've Made Me the Happiest! 🥰
           </h2>
           <p className="font-body text-base md:text-lg text-foreground/80 leading-relaxed mb-4">
-            Thank you for saying yes, June Njeri! You have no idea how much this means to me. 
+            Thank you for saying yes, Nyambura! You have no idea how much this means to me. 
             Get ready for a day full of love, laughter, and unforgettable memories just for us. ❤️
           </p>
           <p className="font-body text-base md:text-lg text-foreground/80 leading-relaxed mb-4">
@@ -178,7 +176,7 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
             <h3 className="font-display text-lg font-semibold text-foreground">A Little Love Note</h3>
           </div>
           <p className="font-body text-sm md:text-base text-foreground/70 leading-relaxed italic mb-3">
-            June, you are the reason I wake up smiling. You are the reason I believe in forever. 
+            Nyambura, you are the reason I wake up smiling. You are the reason I believe in forever. 
             Your kindness, your strength, your beautiful heart — they inspire me every single day.
           </p>
           <p className="font-body text-sm md:text-base text-foreground/70 leading-relaxed italic mb-3">
@@ -325,7 +323,7 @@ const YesScreen = ({ onBack }: YesScreenProps) => {
             I love you not only for what you are, but for what I am when I am with you.
           </p>
           <p className="font-body text-sm text-primary mt-4 font-medium">
-            Happy Valentine's Day, June Njeri! 💖
+            Happy Valentine's Day, Nyambura! 💖
           </p>
         </div>
       </div>
